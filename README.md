@@ -1,62 +1,60 @@
+# Azure VM Migration to Zonal Deployment Helper
 
-# Azure VM migration to zonal deployment helper
-This project provides an example on now to use PowerShell to migrate an Azure Virtual Machine deployed as regional to a zonal deployment. It is based on this [article](https://learn.microsoft.com/en-us/azure/virtual-machines/move-virtual-machines-regional-zonal-powershell)
-
+This project provides a PowerShell script to help migrate an Azure Virtual Machine from a regional to a zonal deployment. It follows the guidance from this [article](https://learn.microsoft.com/en-us/azure/virtual-machines/move-virtual-machines-regional-zonal-powershell).
 
 ## Table of Contents
 
-- [Problem statement](#problem-statement)
-- [Use case](#use-case)
+- [Problem Statement](#problem-statement)
+- [Use Case](#use-case)
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
-    - [Steps to Deploy Terraform example](#steps-to-deploy-terraform-example)
+    - [Steps to Deploy Terraform Example](#steps-to-deploy-terraform-example)
         - [Example Commands](#example-commands)
-    - [How to use the PowerShell script](#how-to-use-the-powershell-script)
+    - [How to Use the PowerShell Script](#how-to-use-the-powershell-script)
         - [Steps to Execute the PowerShell Script](#steps-to-execute-the-powershell-script)
         - [Example Usage](#example-usage)
         - [Parameters](#parameters)
         - [Notes](#notes)
 
+## Problem Statement
 
-## Problem statement
-Organizations deploying Azure Virtual Machines (VMs) in a regional scope often face challenges with service availability and resilience due to the lack of zonal separation. In a regional deployment, all resources are placed within a single Azure region, making them susceptible to downtime if the region encounters an outage. For mission-critical applications, this single-region approach may not meet availability requirements, especially for disaster recovery and high availability.
+Deploying Azure Virtual Machines (VMs) in a regional scope may limit service availability and resilience, as all resources are located within a single Azure region. This can lead to service downtime if the region experiences an outage, which may not meet the requirements for mission-critical applications.
 
-Azure offers Availability Zones, which are unique physical locations within an Azure region, each with independent power, cooling, and networking. Migrating VMs from a regional to a zonal deployment can significantly improve application resilience by isolating resources across these zones. However, the migration process from a regional deployment to a zonal deployment involves multiple configuration steps, resource checks, and dependency resolutions, which can be complex and time-consuming.
+Azure’s Availability Zones provide physically separate locations within a region, each with independent power, cooling, and networking. Migrating VMs from a regional to a zonal deployment can enhance application resilience by isolating resources across these zones. However, the migration process involves multiple configuration steps, resource checks, and dependency management, which can be complex and time-consuming.
 
-## Use case
-This PowerShell-based project provides a script to simplify the migration of Azure Virtual Machines from a regional to a zonal deployment. This script automates essential steps such as:
+## Use Case
+
+This PowerShell script simplifies the process of migrating Azure VMs from a regional to a zonal deployment. The script automates key steps, including:
 
 1. Verifying the resource group and VM details.
 2. Registering the required resource provider (`Microsoft.Migrate`).
-3. Setting up the destination resource group if it doesn't exist.
-4. Creating and managing an Azure Resource Mover collection to facilitate the migration.
-5. Resolving dependencies and ensuring that all required resources are included in the migration.
-6. Initiating and committing the move to the specified target availability zone.
+3. Creating the destination resource group if it does not exist.
+4. Setting up and managing an Azure Resource Mover collection.
+5. Resolving dependencies and ensuring all required resources are included.
+6. Initiating and committing the move to the specified availability zone.
 
-By automating this process, the script helps IT administrators and DevOps teams to:
+This automation enables IT administrators and DevOps teams to:
 
-- Enhance the resilience and availability of Azure-based applications by leveraging Availability Zones.
-- Simplify and accelerate the migration of VMs to zonal deployments, ensuring minimal manual intervention.
-- Follow best practices as outlined in the [Azure documentation](https://learn.microsoft.com/en-us/azure/virtual-machines/move-virtual-machines-regional-zonal-powershell) for regional-to-zonal VM migration.
-
+- Improve resilience and availability by using Azure Availability Zones.
+- Simplify and speed up VM migration to zonal deployments with minimal manual intervention.
+- Follow best practices as described in the [Azure documentation](https://learn.microsoft.com/en-us/azure/virtual-machines/move-virtual-machines-regional-zonal-powershell).
 
 ## Prerequisites
-
 
 - Terraform installed on your local machine
 - An Azure account with sufficient permissions
 
-
 ## Usage
-This repo contains a terraform code for deploying a single regional virtual machine, with this then you can test the migration procesure using the PowerShell script
 
-### Steps to Deploy Terraform example
+This repository includes Terraform code to deploy a single regional VM, which can then be migrated using the PowerShell script.
+
+### Steps to Deploy Terraform Example
 
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/yourusername/RegionalToZonal.git
-    cd RegionalToZonal
+    git clone https://github.com/yourusername/Migrate-VM-To-AZ.git
+    cd Migrate-VM-To-AZ
     ```
 
 2. **Initialize Terraform**
@@ -81,16 +79,16 @@ This repo contains a terraform code for deploying a single regional virtual mach
     terraform apply
     ```
 
-    - Confirm the prompt by typing `yes`.
+    - Confirm by typing `yes` when prompted.
 
 #### Example Commands
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/RegionalToZonal.git
+git clone https://github.com/sihbher/Migrate-VM-To-AZ.git
 
 # Navigate to the project directory
-cd RegionalToZonal
+cd terraform_test_vm
 
 # Initialize Terraform
 terraform init
@@ -121,7 +119,7 @@ The PowerShell script provided in this repository facilitates the migration of a
 2. **Navigate to the Script Directory**
 
     ```powershell
-    cd /Path/To/RegionalToZonal/Scripts
+    cd /Path/To/Migrate-VM-To-AZ/Scripts
     ```
 
 3. **Configure Azure Credentials**
@@ -147,7 +145,7 @@ In this example, only the mandatory parameters are provided. The VM is moved wit
 Connect-AzAccount
 
 # Navigate to the scripts directory
-cd C:\Users\YourName\RegionalToZonal\Scripts
+cd C:\Users\YourName\Migrate-VM-To-AZ\Scripts
 
 # Execute the migration script
 .\Migrate-VM-To-AZ.ps1 -OriginSubscriptionId "XXXXX-XXXX-XXXX-XXX-XXXX" -OriginResourceGroupName "ProdResources" -OriginVMName "WebServer01"
