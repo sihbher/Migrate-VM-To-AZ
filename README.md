@@ -1,10 +1,12 @@
 
-# Project Title
-This project provides an example on now to use Powershell mo migrate an Azure Virtual Machine deployed as regional to a zonal deployment. It is based on this [article](https://learn.microsoft.com/en-us/azure/virtual-machines/move-virtual-machines-regional-zonal-powershell)
+# Azure VM migration to zonal deployment helper
+This project provides an example on now to use PowerShell to migrate an Azure Virtual Machine deployed as regional to a zonal deployment. It is based on this [article](https://learn.microsoft.com/en-us/azure/virtual-machines/move-virtual-machines-regional-zonal-powershell)
 
 
 ## Table of Contents
 
+- [Problem statement](#problem-statement)
+- [Use case](#use-case)
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
     - [Steps to Deploy Terraform example](#steps-to-deploy-terraform-example)
@@ -14,6 +16,29 @@ This project provides an example on now to use Powershell mo migrate an Azure Vi
         - [Example Usage](#example-usage)
         - [Parameters](#parameters)
         - [Notes](#notes)
+
+
+## Problem statement
+Organizations deploying Azure Virtual Machines (VMs) in a regional scope often face challenges with service availability and resilience due to the lack of zonal separation. In a regional deployment, all resources are placed within a single Azure region, making them susceptible to downtime if the region encounters an outage. For mission-critical applications, this single-region approach may not meet availability requirements, especially for disaster recovery and high availability.
+
+Azure offers Availability Zones, which are unique physical locations within an Azure region, each with independent power, cooling, and networking. Migrating VMs from a regional to a zonal deployment can significantly improve application resilience by isolating resources across these zones. However, the migration process from a regional deployment to a zonal deployment involves multiple configuration steps, resource checks, and dependency resolutions, which can be complex and time-consuming.
+
+## Use case
+This PowerShell-based project provides a script to simplify the migration of Azure Virtual Machines from a regional to a zonal deployment. This script automates essential steps such as:
+
+1. Verifying the resource group and VM details.
+2. Registering the required resource provider (`Microsoft.Migrate`).
+3. Setting up the destination resource group if it doesn't exist.
+4. Creating and managing an Azure Resource Mover collection to facilitate the migration.
+5. Resolving dependencies and ensuring that all required resources are included in the migration.
+6. Initiating and committing the move to the specified target availability zone.
+
+By automating this process, the script helps IT administrators and DevOps teams to:
+
+- Enhance the resilience and availability of Azure-based applications by leveraging Availability Zones.
+- Simplify and accelerate the migration of VMs to zonal deployments, ensuring minimal manual intervention.
+- Follow best practices as outlined in the [Azure documentation](https://learn.microsoft.com/en-us/azure/virtual-machines/move-virtual-machines-regional-zonal-powershell) for regional-to-zonal VM migration.
+
 
 ## Prerequisites
 
